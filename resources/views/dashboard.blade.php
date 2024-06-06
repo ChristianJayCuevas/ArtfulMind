@@ -46,7 +46,7 @@
        </div>
        <div class="flex-col border-solid border-transparent rounded-3xl cursor-pointer mt-12 mx-3">
            @if($posts->isEmpty())
-               <div class="card_area2 flex justify-center items-center flex-col min-w-min">
+               <div class="card_area2 flex justify-center items-center flex-col w-[36rem] min-w-min">
                    <div class="titlecard">
                        No posts yet :(
                    </div>

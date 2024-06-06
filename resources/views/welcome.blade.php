@@ -47,8 +47,7 @@
                         <!-- Navigation Links -->
                     </div>
                     <div class="flex">
-                        @guest
-                        @else
+                        
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex " >
                             <x-nav-link :href="route('login')">
                                     {{ __('Login') }}
@@ -58,7 +57,6 @@
                                 {{ __('Register') }}
                             </x-nav-link>
                         </div>
-                        @endguest
                     </div>
 
                     <!-- Hamburger -->

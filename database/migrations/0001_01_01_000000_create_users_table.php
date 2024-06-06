@@ -19,8 +19,6 @@ return new class extends Migration
             $table->integer('license_id')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('profile_photo_path')->nullable();
-            $table->string('cover_photo_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

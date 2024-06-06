@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Artwork;
 use App\Http\Controllers\ArtworkController;
+use App\Http\Controllers\UserProfileController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -67,6 +68,14 @@ Route::delete('/post/{id}', function($id)
 
     return redirect('dashboard');
 });
+
+Route::get('/profile/{user}', function(User $user)
+{
+    return view('profile', ['user' => $user]);
+})->middleware(['auth', 'verified'])->name('UserProfile');
+
+Route::get('/user/{user}', [UserProfileController::class, 'showProfile'])->middleware(['auth', 'verified'])
+->name("showProfile");
 
 
 Route::middleware('auth')->group(function () {

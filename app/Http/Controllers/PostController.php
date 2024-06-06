@@ -57,7 +57,7 @@ class PostController extends Controller
 
         ]);
 
-        $image_url = $request->hasFile('file_upload') ? $request->file('file_upload')->store('public/images') : null;
+        $image_url = $request->hasFile('file_upload') ? $request->file('file_upload')->store('images') : null;
 
         post::create(
         [
