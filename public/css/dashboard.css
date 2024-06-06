@@ -1,0 +1,47 @@
+.flexbox-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width:100%;
+}
+
+.flexbox-container2{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width:100%;
+    margin-top: 20px;
+}
+
+
+.flexbox-item{
+    min-width: none;
+}
+
+.flexbox-item-1{
+    height: auto;
+
+}
+
+.flexbox-item-2{
+    height: auto;
+    margin-left:20px;
+    margin-right:20px;
+}
+
+
+.flexbox-item-3{
+    height: auto;
+    justify-content: flex-start;
+    margin-top:20px;
+    width: 20rem;
+
+}
+
+.flexbox-item-4{
+    height: auto;
+    justify-content: flex-end;
+    margin-top:20px;
+    width: 20rem;
+
+}
