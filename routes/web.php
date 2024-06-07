@@ -74,6 +74,8 @@ Route::get('/profile/{user}', function(User $user)
     return view('profile', ['user' => $user]);
 })->middleware(['auth', 'verified'])->name('UserProfile');
 
+Route::post('/profile/upload-photos', [ProfileController::class, 'uploadprofileandcover'])->middleware(['auth', 'verified'])
+->name("upload.profile.cover");
 Route::get('/user/{user}', [UserProfileController::class, 'showProfile'])->middleware(['auth', 'verified'])
 ->name("showProfile");
 

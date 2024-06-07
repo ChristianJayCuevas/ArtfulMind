@@ -1,65 +1,64 @@
 <x-showlayout>
-    <div class="flexbox-container">
-        <div class="flexbox-item flexbox-item-1 flex-col">
-            @if($user->UserProfile == null)
-            <div class="mt-2 mb-10 flex justify-center">
-                <div class="image-container w-full md:w-full">
-                    <img src="{{ asset(str_replace('public', 'storage', $post->image_url))  }}" class="rounded-lg object-contain h-full w-full" alt="Post Image">
+    <div class="flex flex-col items-center mx-auto px-4">
+        <div class="flex flex-col items-center bg-white rounded-lg shadow-md overflow-hidden w-full md:w-2/3 lg:w-1/2">
+            <div class="relative w-full">
+                <div class="h-48 bg-gray-300 cursor-pointer" onclick="document.getElementById('cover-photo-upload').click()">
+                    <img id="cover-photo-preview" class="w-full h-full object-cover" src="{{ $user->coverPhoto ?? '/default-cover.jpg' }}" alt="Cover Photo">
+                </div>
+                <div class="absolute bottom-0 transform -translate-x-1/2 translate-y-1/2 left-1/2">
+                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white bg-black cursor-pointer" onclick="document.getElementById('profile-photo-upload').click()">
+                        <img id="profile-photo-preview" class="w-full h-full object-cover" src="{{ $user->profilePicture ?? '/default-profile.jpg' }}" alt="Profile Picture">
+                    </div>
                 </div>
             </div>
-            <div class="mt-2 mb-10 flex justify-start">
-                <div class="border-solid border-2 rounded-full bg-white">
-                    <img src="{{ asset(str_replace('public', 'storage', $post->image_url))  }}" class="rounded-lg object-contain h-full w-full" alt="Post Image">
+            <div class="p-6 w-full">
+                <div class="text-center mb-4 mt-12">
+                    <h2 class="text-2xl font-bold">{{ $user->name }}</h2>
+                    <p class="text-gray-600">{{ $user->bio }}</p>
                 </div>
-            </div>
-            @endif
-            
-            <h2 class="titlecard mt-2">
-                {{ $user->name }}
-            </h2>
-            <p class="sub_titlecard mt-2 mb-10">
-                Placeholder
-            </p>
-        
-            <p class="text-gray-700 dark:text-gray-300 mt-2 mb-4">
-                <a href="/post/{{ $post->id }}/edit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline">
-                    Edit
-                </a>
-            </p>
-        
-        </div>
-
-        <div class="flexbox-item flexbox-item-2">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mb-4">
-                Comments
-            </h2>
-            @foreach($post->Comment as $comment)
-            <!--bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4 w-full-->
-                <div class="flexbox-item flexbox-item-3">
-                    <p class="text-gray-700 dark:text-gray-300 font-bold mb-2">
-                        {{ $comment->User->name }}
-                    </p>
-                    <p class="text-gray-700 dark:text-gray-300">
-                        {{ $comment->comments }}
-                    </p>
+                <div class="flex justify-center space-x-4">
+                    <div class="text-center">
+                        <span class="text-gray-600">Tweets</span>
+                        <strong class="block">{{ $user->tweets_count }}</strong>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-gray-600">Following</span>
+                        <strong class="block">{{ $user->following_count }}</strong>
+                    </div>
+                    <div class="text-center">
+                        <span class="text-gray-600">Followers</span>
+                        <strong class="block">{{ $user->followers_count }}</strong>
+                    </div>
                 </div>
-            @endforeach
-
-            <div class="flexbox-item flexbox-item-3">
-                <form method="POST" action="{{ route('createComment') }}">
-                    @csrf
-                        <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <div class="mb-4">
-                            <label for="comment" class="block text-gray-700 dark:text-gray-300 mb-2">Add a comment</label>
-                            <textarea id="comment" name="comment" rows="3" class="w-full px-3 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 dark:focus:ring-blue-500" required></textarea>
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline">
-                                Submit
-                            </button>
-                        </div>
-                </form>
             </div>
         </div>
     </div>
+
+    <form id="upload-form" action="{{ route('upload.profile.cover') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="file" id="cover-photo-upload" name="cover_photo" style="display: none;" onchange="previewCoverPhoto(this)">
+        <input type="file" id="profile-photo-upload" name="profile_photo" style="display: none;" onchange="previewProfilePhoto(this)">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Upload Photos</button>
+    </form>
 </x-showlayout>
+<script>
+    function previewCoverPhoto(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('cover-photo-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewProfilePhoto(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile-photo-preview').src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>

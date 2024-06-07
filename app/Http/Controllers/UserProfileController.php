@@ -17,4 +17,28 @@ class UserProfileController extends Controller
         $user = Auth::user();
         return view('userprofile', ['user' => $user, 'post' => $post]);
     }
+
+    public function uploadPhotos(Request $request, User $user)
+    {
+        // Check if the authenticated user is the same as the user being updated
+        if ($request->user()->id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if ($request->hasFile('cover_photo')) {
+            $coverPhoto = $request->file('cover_photo');
+            $coverPhotoPath = $coverPhoto->store('cover-photos', 'public');
+            $user->cover_photo = $coverPhotoPath;
+        }
+
+        if ($request->hasFile('profile_photo')) {
+            $profilePhoto = $request->file('profile_photo');
+            $profilePhotoPath = $profilePhoto->store('profile-photos', 'public');
+            $user->profile_photo = $profilePhotoPath;
+        }
+
+        $user->save();
+
+        return redirect()->route('UserProfile', $user)->with('success', 'Photos uploaded successfully!');
+    }
 }
